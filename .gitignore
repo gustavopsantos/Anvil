@@ -1,0 +1,7 @@
+﻿*.user
+.idea
+packages
+Anvil.Tests/bin
+Anvil.Tests/obj
+Anvil/bin
+Anvil/obj

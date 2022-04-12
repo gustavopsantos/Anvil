@@ -1,20 +1,29 @@
-﻿using FluentAssertions;
+﻿using System;
+using Anvil.Serialization;
+using Anvil.Utilities;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Anvil.Tests
 {
     public class Class1
     {
-        [Test]
-        public void TestOne()
+        private Serializer _serializer;
+
+        [SetUp]
+        public void Setup()
         {
-            1.Should().Be(1);
+            var logger = new Logger(Console.WriteLine, Console.WriteLine, Console.WriteLine);
+            _serializer = new Serializer(logger);
         }
-        
+
         [Test]
-        public void TestTwo()
+        public void Pineapple()
         {
-            1.Should().Be(2);
+            var serialized = _serializer.Serialize(42);
+            var deserialized = _serializer.Deserialize(serialized);
+            deserialized.GetType().Should().Be<int>();
+            deserialized.Should().BeEquivalentTo(42);
         }
     }
 }

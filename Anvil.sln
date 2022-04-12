@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anvil", "Anvil\Anvil.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anvil.Tests", "Anvil.Tests\Anvil.Tests.csproj", "{72F62676-2E49-4D4D-B69C-B9D124B8E9D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anvil.Benchmark", "Anvil.Benchmark\Anvil.Benchmark.csproj", "{DA9F30C0-83CA-4D27-AF03-D945C23F333C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{72F62676-2E49-4D4D-B69C-B9D124B8E9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72F62676-2E49-4D4D-B69C-B9D124B8E9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72F62676-2E49-4D4D-B69C-B9D124B8E9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9F30C0-83CA-4D27-AF03-D945C23F333C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9F30C0-83CA-4D27-AF03-D945C23F333C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9F30C0-83CA-4D27-AF03-D945C23F333C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9F30C0-83CA-4D27-AF03-D945C23F333C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

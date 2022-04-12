@@ -5,3 +5,5 @@ Anvil.Tests/bin
 Anvil.Tests/obj
 Anvil/bin
 Anvil/obj
+Anvil.Benchmark/bin
+Anvil.Benchmark/obj

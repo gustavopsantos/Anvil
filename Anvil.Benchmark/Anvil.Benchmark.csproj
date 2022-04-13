@@ -266,8 +266,10 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AnvilBenchmark.cs" />
+        <Compile Include="Benchmark.cs" />
         <Compile Include="BinaryFormatterFacade.cs" />
+        <Compile Include="Person.cs" />
+        <Compile Include="PersonSerializer.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Tests.cs" />

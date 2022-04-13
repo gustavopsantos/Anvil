@@ -9,18 +9,18 @@ namespace Anvil.Serialization
     public class Serializer
     {
         private readonly byte[] _buffer;
-        private readonly SerializationModel _serializationModel;
+        public readonly SerializationModel SerializationModel;
         private readonly AGenericSerializer<Schema> _schemaSerializer;
 
         public Serializer(Logger logger)
         {
             _buffer = new byte[short.MaxValue];
-            _serializationModel = new SerializationModel(logger);
-            _serializationModel.Add<int>(new IntSerializer());
-            _serializationModel.Add<byte>(new ByteSerializer());
-            _serializationModel.Add<string>(new StringSerializer(_serializationModel));
-            _serializationModel.Add<Schema>(new SchemaSerializer(_serializationModel));
-            _schemaSerializer = _serializationModel.Get<Schema>();
+            SerializationModel = new SerializationModel(logger);
+            SerializationModel.Add<int>(new IntSerializer());
+            SerializationModel.Add<byte>(new ByteSerializer());
+            SerializationModel.Add<string>(new StringSerializer(SerializationModel));
+            SerializationModel.Add<Schema>(new SchemaSerializer(SerializationModel));
+            _schemaSerializer = SerializationModel.Get<Schema>();
         }
         
         public byte[] Serialize<T>(T obj)
@@ -32,7 +32,7 @@ namespace Anvil.Serialization
 
             var offset = 0;
             _schemaSerializer.Serialize(new Schema(typeof(T)), _buffer, ref offset);
-            _serializationModel.Get<T>().Serialize(obj, _buffer, ref offset);
+            SerializationModel.Get<T>().Serialize(obj, _buffer, ref offset);
             return _buffer.Copy(offset);
         }
 
@@ -45,7 +45,7 @@ namespace Anvil.Serialization
 
             var offset = 0;
             var schema = _schemaSerializer.Deserialize(bytes, ref offset);
-            return _serializationModel.Get(schema.Type).DeserializeObject(bytes, ref offset);
+            return SerializationModel.Get(schema.Type).DeserializeObject(bytes, ref offset);
         }
     }
 }

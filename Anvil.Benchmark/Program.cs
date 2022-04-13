@@ -16,7 +16,7 @@ namespace Anvil.Benchmark
                 .AddLogger(ConsoleLogger.Default)
                 .AddColumnProvider(DefaultColumnProviders.Instance);
             
-            BenchmarkRunner.Run<AnvilBenchmark>(config);
+            BenchmarkRunner.Run<Benchmark>(config);
         }
     }
 }

@@ -9,13 +9,18 @@ namespace Anvil.Benchmark
 {
     public class Tests
     {
-        private static readonly int BenchmarkObject = 42;
+        private static readonly Person BenchmarkObject = new Person
+        {
+            Name = "Willy Wonka",
+            Age = 56
+        };
 
         [Test]
         public void Ensure_Anvil_CanSerializeTargetBenchmarkObject()
         {
             var logger = new Logger(Console.WriteLine, Console.WriteLine, Console.WriteLine);
             var serializer = new Serializer(logger);
+            serializer.SerializationModel.Add<Person>(new PersonSerializer(serializer.SerializationModel));
             var serialized = serializer.Serialize(BenchmarkObject);
             var deserialized = serializer.Deserialize(serialized);
             deserialized.GetType().Should().Be(BenchmarkObject.GetType());

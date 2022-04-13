@@ -16,17 +16,17 @@ namespace Anvil.Serializers
 
         public override void Serialize(Schema value, byte[] bytes, ref int offset)
         {
-            value.Validate();
-            var assemblyQualifiedName = GetSlimAssemblyQualifiedName.Get(value.Type);
+            //value.Validate();
+            var assemblyQualifiedName = TypeCache.GetName(value.Type);
             _stringSerializer.Serialize(assemblyQualifiedName, bytes, ref offset);
         }
 
         public override Schema Deserialize(byte[] bytes, ref int offset)
         {
             var assemblyQualifiedName = _stringSerializer.Deserialize(bytes, ref offset);
-            var type = Type.GetType(assemblyQualifiedName);
+            var type = TypeCache.GetType(assemblyQualifiedName);
             var schema = new Schema(type);
-            schema.Validate();
+            //schema.Validate();
             return schema;
         }
     }

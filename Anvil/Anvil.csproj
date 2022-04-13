@@ -54,9 +54,9 @@
         <Compile Include="Serializers\SchemaSerializer.cs" />
         <Compile Include="Serializers\StringSerializer.cs" />
         <Compile Include="Utilities\EnsureThat.cs" />
-        <Compile Include="Utilities\GetSlimAssemblyQualifiedName.cs" />
         <Compile Include="Utilities\Logger.cs" />
         <Compile Include="Utilities\NullFlag.cs" />
+        <Compile Include="Utilities\TypeCache.cs" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Generics" />

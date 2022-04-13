@@ -15,32 +15,25 @@ namespace Anvil.Benchmark
         private const int Number = 42;
         private Serializer _anvilSerializer;
 
+        private byte[] _anvilSerialized;
+        private byte[] _binaryFormatterSerialized;
+        private string _newtonsoftSerialized;
+
         [GlobalSetup]
         public void Setup()
         {
             var logger = new Logger(Console.WriteLine, Console.WriteLine, Console.WriteLine);
             _anvilSerializer = new Serializer(logger);
-        }
-        
-        [Benchmark(Baseline = true)]
-        public void JsonDotNet()
-        {
-            var serialized = JsonConvert.SerializeObject(Number);
-            var deserialized = JsonConvert.DeserializeObject<int>(serialized);
+            _anvilSerialized = _anvilSerializer.Serialize(Number);
+            _binaryFormatterSerialized = BinaryFormatterFacade.Serialize(Number);
+            _newtonsoftSerialized = JsonConvert.SerializeObject(Number);
         }
 
-        [Benchmark]
-        public void Anvil()
-        {
-            var serialized = _anvilSerializer.Serialize(Number);
-            var deserialized = _anvilSerializer.Deserialize(serialized);
-        }
-
-        [Benchmark]
-        public void BinaryFormatter()
-        {
-            var serialized = BinaryFormatterFacade.Serialize(Number);
-            var deserialized = BinaryFormatterFacade.Deserialize(serialized);
-        }
+        [Benchmark(Baseline = true)] public void NewtonsoftJsonSerialization() => JsonConvert.SerializeObject(Number);
+        [Benchmark] public void NewtonsoftJsonDeserialization() => JsonConvert.DeserializeObject<int>(_newtonsoftSerialized);
+        [Benchmark] public void BinaryFormatterSerialization() => BinaryFormatterFacade.Serialize(Number);
+        [Benchmark] public void BinaryFormatterDeserialization() => BinaryFormatterFacade.Deserialize(_binaryFormatterSerialized);
+        [Benchmark] public void AnvilSerialization() => _anvilSerializer.Serialize(Number);
+        [Benchmark] public void AnvilDeserialization() => _anvilSerializer.Deserialize(_anvilSerialized);
     }
 }

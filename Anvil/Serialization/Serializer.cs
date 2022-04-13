@@ -1,4 +1,5 @@
 ﻿using System;
+using Anvil.Abstractions;
 using Anvil.Extensions;
 using Anvil.Serializers;
 using Anvil.Utilities;
@@ -9,6 +10,7 @@ namespace Anvil.Serialization
     {
         private readonly byte[] _buffer;
         private readonly SerializationModel _serializationModel;
+        private readonly AGenericSerializer<Schema> _schemaSerializer;
 
         public Serializer(Logger logger)
         {
@@ -18,6 +20,7 @@ namespace Anvil.Serialization
             _serializationModel.Add<byte>(new ByteSerializer());
             _serializationModel.Add<string>(new StringSerializer(_serializationModel));
             _serializationModel.Add<Schema>(new SchemaSerializer(_serializationModel));
+            _schemaSerializer = _serializationModel.Get<Schema>();
         }
         
         public byte[] Serialize<T>(T obj)
@@ -28,7 +31,7 @@ namespace Anvil.Serialization
             }
 
             var offset = 0;
-            _serializationModel.Get<Schema>().Serialize(new Schema(typeof(T)), _buffer, ref offset);
+            _schemaSerializer.Serialize(new Schema(typeof(T)), _buffer, ref offset);
             _serializationModel.Get<T>().Serialize(obj, _buffer, ref offset);
             return _buffer.Copy(offset);
         }
@@ -41,7 +44,7 @@ namespace Anvil.Serialization
             }
 
             var offset = 0;
-            var schema = _serializationModel.Get<Schema>().Deserialize(bytes, ref offset);
+            var schema = _schemaSerializer.Deserialize(bytes, ref offset);
             return _serializationModel.Get(schema.Type).DeserializeObject(bytes, ref offset);
         }
     }

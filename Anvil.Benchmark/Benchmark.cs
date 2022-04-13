@@ -3,6 +3,7 @@ using Anvil.Serialization;
 using Anvil.Utilities;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
+using BinaryPack;
 using Newtonsoft.Json;
 
 namespace Anvil.Benchmark
@@ -17,6 +18,7 @@ namespace Anvil.Benchmark
         private byte[] _anvilSerialized;
         private byte[] _binaryFormatterSerialized;
         private string _newtonsoftSerialized;
+        private byte[] _binaryPackSerialized;
 
         [GlobalSetup]
         public void Setup()
@@ -27,6 +29,7 @@ namespace Anvil.Benchmark
             _anvilSerialized = _anvilSerializer.Serialize(Target);
             _binaryFormatterSerialized = BinaryFormatterFacade.Serialize(Target);
             _newtonsoftSerialized = JsonConvert.SerializeObject(Target);
+            _binaryPackSerialized = BinaryConverter.Serialize(Target);
         }
 
         [Benchmark(Baseline = true)]
@@ -51,6 +54,18 @@ namespace Anvil.Benchmark
         public void BinaryFormatterDeserialization()
         {
             BinaryFormatterFacade.Deserialize(_binaryFormatterSerialized);
+        }
+        
+        [Benchmark]
+        public void BinaryPackSerialization()
+        {
+            BinaryConverter.Serialize(Target);
+        }
+
+        [Benchmark]
+        public void BinaryPackDeserialization()
+        {
+            BinaryConverter.Deserialize<Person>(_binaryPackSerialized);
         }
 
         [Benchmark]
